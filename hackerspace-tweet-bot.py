@@ -82,6 +82,6 @@ for item in data:
                     )
 
     if message:
-        squawk(USERNAME, PASSWORD, message)
+        squawk(USERNAME, PASSWORD, message.encode("utf-8"))
 
 

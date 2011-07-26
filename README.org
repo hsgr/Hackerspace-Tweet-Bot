@@ -1,4 +1,4 @@
 * Hackerspace Tweet Bot
 
 I'm a simple python code to tweet [[http://www.hackerspace.gr][hackerspace.gr]] events read from
-[[http://www.mediawiki.org/wiki/Extension:SMWAskAPI][Semantic Wiki API]].
+[[http://www.mediawiki.org/wiki/Extension:SMWAskAPI][Semantic Wiki API]]. I use [[http://goo.gl][goo.gl]] to shrink urls.

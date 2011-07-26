@@ -78,7 +78,12 @@ for item in data:
                    (start_date.hour,
                     start_date.minute,
                     truncate(item['title'], 140),
-                    googl.shorten(item['uri'])
+                    # shorten url
+                    # url-quote wiki page title so we
+                    # generate correct links
+                    googl.shorten(item['uri'][:43] +\
+                                  urllib.quote(item['uri'][43:])
+                                  )
                     )
 
     if message:

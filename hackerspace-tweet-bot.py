@@ -4,7 +4,7 @@
 #
 # Tweeting bot for hackerspace events
 #
-import urllib2
+import urllib
 from datetime import datetime, timedelta
 import json
 import googl
@@ -44,7 +44,7 @@ today = datetime.now()
 tomorrow = datetime.now() + timedelta(days=1)
 
 try:
-    results = urllib2.urlopen(QUERY).read()
+    results = urllib.urlopen(QUERY).read()
 except:
     raise
 

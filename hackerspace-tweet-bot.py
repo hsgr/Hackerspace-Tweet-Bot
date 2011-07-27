@@ -122,7 +122,7 @@ def main():
                 BODY = string.join(("Approved: %s" % MAIL_KEY,
                                     "From: %s" % MAIL_FROM,
                                     "To: %s" % MAIL_TO,
-                                    "Subject: %s" % email_message,
+                                    "Subject: [hsgr-ann] %s" % email_message,
                                     "",
                                     email_message,
                                     u"\r\nΠερισσότερα: ".encode("utf-8") + url,

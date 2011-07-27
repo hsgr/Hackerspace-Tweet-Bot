@@ -129,7 +129,6 @@ def main():
                                     "\r\n--\r\nHackerspace Little Event Bot",
                                     ), "\r\n"
                                    )
-                print BODY
                 email_sender.sendmail(MAIL_FROM, MAIL_TO, BODY)
 
 if __name__ == "__main__":

@@ -11,6 +11,10 @@ import json
 import string
 from datetime import datetime, timedelta
 
+from email.MIMEMultipart import MIMEMultipart
+from email.MIMEBase import MIMEBase
+from email.MIMEText import MIMEText
+
 import googl
 
 # Config Section Start
@@ -119,18 +123,55 @@ def main():
                 squawk(USERNAME, PASSWORD, tweet_message)
 
             if MAIL:
-                BODY = string.join(("Approved: %s" % MAIL_KEY,
-                                    "From: %s" % MAIL_FROM,
-                                    "To: %s" % MAIL_TO,
-                                    "Subject: %s" % email_message,
-                                    "",
-                                    email_message,
-                                    u"\r\nΠερισσότερα: ".encode("utf-8") + url,
-                                    "\r\n--\r\nHackerspace Little Event Bot",
-                                    ), "\r\n"
-                                   )
-                print BODY
-                email_sender.sendmail(MAIL_FROM, MAIL_TO, BODY)
+                msg = MIMEMultipart()
+                msg.set_charset('utf-8')
+                msg['From'] = MAIL_FROM
+                msg['To'] = MAIL_TO
+                msg['Subject'] = email_message
+
+
+                BODY = string.join(
+                    (email_message,
+                     u"\r\nΠερισσότερα: ".encode("utf-8") + url,
+                     "\r\n--\r\nHackerspace Little Event Bot",
+                     ), "\r\n"
+                    )
+                t = MIMEText(BODY)
+                t.set_charset('utf-8')
+                msg.attach(t)
+
+                # attach ICS
+                part = MIMEBase('text', "calendar")
+                part.set_payload(string.join(
+                    (
+                    "BEGIN:VCALENDAR",
+                    "VERSION:2.0",
+                    "PRODID:-//hsgr/handcal//NONSGML v1.0//EN",
+                    "BEGIN:VEVENT",
+                    "UID:%s@hsgr" % item['title'].encode('utf-8').replace(' ', '_'),
+                    "DTSTAMP:%04d%02d%02dT%02d%02d00" % (start_date.year,
+                                                          start_date.month,
+                                                          start_date.day,
+                                                          start_date.hour,
+                                                          start_date.minute),
+                    "ORGANIZER;CN=Hackerspace:MAILTO:mail@hackerspace.gr",
+                    "DTSTART:%04d%02d%02dT%02d%02d00" % (start_date.year,
+                                                          start_date.month,
+                                                          start_date.day,
+                                                          start_date.hour,
+                                                          start_date.minute),
+
+                    "SUMMARY:%s" % email_message,
+                    "END:VEVENT",
+                    "END:VCALENDAR"
+                    ), "\r\n")
+                )
+                part.add_header('Content-Disposition',
+                                'attachment; filename="event.ics"')
+                part.set_charset('utf-8')
+                msg.attach(part)
+
+                email_sender.sendmail(MAIL_FROM, MAIL_TO, msg.as_string())
 
 if __name__ == "__main__":
     main()

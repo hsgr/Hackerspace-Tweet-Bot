@@ -17,15 +17,20 @@ from email.MIMEText import MIMEText
 
 import googl
 
-# Config Section Start
-USERNAME = None
-PASSWORD = None
-TWEET = False
-MAIL = False
-MAIL_FROM = 'noreply@hackerspace.gr'
-MAIL_TO = 'announce@hackerspace.gr'
-MAIL_KEY = None
-# Config Section End
+#Read configuration
+from ConfigParser import SafeConfigParser
+parser = SafeConfigParser()
+if parser.read('config.ini'):
+    USERNAME = parser.get('identica', 'username')
+    PASSWORD = parser.get('identica', 'password')
+    TWEET = parser.get('identica', 'tweet')
+    MAIL = parser.get('email', 'mail')
+    MAIL_FROM = parser.get('email', 'mail_from')
+    MAIL_TO = parser.get('email', 'mail_to')
+    MAIL_KEY = parser.get('email', 'mail_key')
+else:
+    print "error: no config.ini found"
+    exit()
 
 QUERY = "http://hackerspace.gr/api.php?action=ask&q=[[Category:Events]]" \
         "&format=json&po=location|Start%20date|"
@@ -168,6 +173,7 @@ def main():
                 )
                 part.add_header('Content-Disposition',
                                 'attachment; filename="event.ics"')
+
                 part.set_charset('utf-8')
                 msg.attach(part)
 

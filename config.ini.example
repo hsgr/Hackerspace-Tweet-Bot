@@ -1,0 +1,11 @@
+# Config Variables
+[identica]
+USERNAME = None
+PASSWORD = None
+TWEET = False
+
+[email]
+MAIL = False
+MAIL_FROM = 'noreply@hackerspace.gr'
+MAIL_TO = 'announce@hackerspace.gr'
+MAIL_KEY = None

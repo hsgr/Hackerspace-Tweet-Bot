@@ -133,7 +133,7 @@ def main():
 		msg['Approved'] = MAIL_KEY
                 msg['From'] = MAIL_FROM
                 msg['To'] = MAIL_TO
-                msg['Subject'] = email_message
+                msg['Subject'] = '[hsgr-ann] %s' % email_message
 
 
                 BODY = string.join(

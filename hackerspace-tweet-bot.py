@@ -130,6 +130,7 @@ def main():
             if MAIL:
                 msg = MIMEMultipart()
                 msg.set_charset('utf-8')
+		msg['Approved'] = MAIL_KEY
                 msg['From'] = MAIL_FROM
                 msg['To'] = MAIL_TO
                 msg['Subject'] = email_message

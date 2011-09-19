@@ -20,7 +20,7 @@ import googl
 #Read configuration
 from ConfigParser import SafeConfigParser
 parser = SafeConfigParser()
-if parser.read('config.ini'):
+if parser.read('./config.ini'):
     USERNAME = parser.get('identica', 'username')
     PASSWORD = parser.get('identica', 'password')
     TWEET = parser.get('identica', 'tweet')

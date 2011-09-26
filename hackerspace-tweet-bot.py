@@ -10,6 +10,7 @@ import htmllib
 import json
 import string
 from datetime import datetime, timedelta
+from ConfigParser import SafeConfigParser
 
 from email.MIMEMultipart import MIMEMultipart
 from email.MIMEBase import MIMEBase
@@ -18,8 +19,9 @@ from email.MIMEText import MIMEText
 import googl
 
 #Read configuration
-from ConfigParser import SafeConfigParser
+
 parser = SafeConfigParser()
+
 if parser.read('./config.ini'):
     USERNAME = parser.get('identica', 'username')
     PASSWORD = parser.get('identica', 'password')
@@ -28,6 +30,7 @@ if parser.read('./config.ini'):
     MAIL_FROM = parser.get('email', 'mail_from')
     MAIL_TO = parser.get('email', 'mail_to')
     MAIL_KEY = parser.get('email', 'mail_key')
+
 else:
     print "error: no config.ini found"
     exit()
@@ -103,8 +106,9 @@ def main():
             # shorten url
             # url-quote wiki page title so we
             # generate correct links
-            url = googl.shorten(item['uri'][:43] +\
-                                urllib.quote(item['uri'][43:])
+            uri = item['uri'][43:].encode("utf-8")
+            url = googl.shorten(item['uri'][:43] +
+                                urllib.quote(uri)
                                 ).encode("utf-8")
             title = unescape(item['title'])
 

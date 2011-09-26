@@ -83,6 +83,7 @@ def main():
 
     try:
         data = results['ask']['results']['items']
+
     except KeyError:
         raise ValueError("Bad API data")
 
@@ -94,6 +95,14 @@ def main():
         except ValueError:
             # cannot parse date, move to next time
             continue
+
+        try:
+            end_date = datetime.strptime(item['properties']['end_date'],
+                                         "%Y-%m-%d %H:%M:%S"
+                                         )
+        except ValueError:
+            # cannot parse end date, make it equal to start_date + 1
+            end_date = start_date + timedelta(hour=1)
 
         when = None
         if sameday(today, start_date):
@@ -159,18 +168,25 @@ def main():
                     "PRODID:-//hsgr/handcal//NONSGML v1.0//EN",
                     "BEGIN:VEVENT",
                     "UID:%s@hsgr" % item['title'].encode('utf-8').replace(' ', '_'),
-                    "DTSTAMP:%04d%02d%02dT%02d%02d00" % (start_date.year,
-                                                          start_date.month,
-                                                          start_date.day,
-                                                          start_date.hour,
-                                                          start_date.minute),
+                    "DTSTAMP;TZID=Europe/Athens:%04d%02d%02dT%02d%02d00" % (
+                            start_date.year,
+                            start_date.month,
+                            start_date.day,
+                            start_date.hour,
+                            start_date.minute),
                     "ORGANIZER;CN=Hackerspace:MAILTO:mail@hackerspace.gr",
-                    "DTSTART:%04d%02d%02dT%02d%02d00" % (start_date.year,
-                                                          start_date.month,
-                                                          start_date.day,
-                                                          start_date.hour,
-                                                          start_date.minute),
-
+                    "DTSTART;TZID=Europe/Athens:%04d%02d%02dT%02d%02d00" % (
+                            start_date.year,
+                            start_date.month,
+                            start_date.day,
+                            start_date.hour,
+                            start_date.minute),
+                    "DTEND;TZID=Europe/Athens:%04d%02d%02dT%02d%02d00" % (
+                        end_date.year,
+                        end_date.month,
+                        end_date.day,
+                        end_date.hour,
+                        end_date.minute),
                     "SUMMARY:%s" % email_message,
                     "END:VEVENT",
                     "END:VCALENDAR"

@@ -36,7 +36,7 @@ else:
     exit()
 
 QUERY = "http://hackerspace.gr/api.php?action=ask&q=[[Category:Events]]" \
-        "&format=json&po=location|Start%20date|"
+        "&format=json&po=location|Start%20date|displaytitle"
 
 def unescape(s):
     p = htmllib.HTMLParser(None)

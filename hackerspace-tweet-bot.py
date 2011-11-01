@@ -119,7 +119,7 @@ def main():
             url = googl.shorten(item['uri'][:43] +
                                 urllib.quote(uri)
                                 ).encode("utf-8")
-            title = unescape(item['title'])
+            title = unescape(item['displaytitle'])
 
             tweet_message = u"%s στις %02d.%02d: %s %s" %\
                             (when,
@@ -167,7 +167,7 @@ def main():
                     "VERSION:2.0",
                     "PRODID:-//hsgr/handcal//NONSGML v1.0//EN",
                     "BEGIN:VEVENT",
-                    "UID:%s@hsgr" % item['title'].encode('utf-8').replace(' ', '_'),
+                    "UID:%s@hsgr" % item['displaytitle'].encode('utf-8').replace(' ', '_'),
                     "DTSTAMP;TZID=Europe/Athens:%04d%02d%02dT%02d%02d00" % (
                             start_date.year,
                             start_date.month,

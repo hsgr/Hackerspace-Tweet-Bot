@@ -89,7 +89,7 @@ def main():
 
     for item in data:
 	try:
-	    displaytitle = item['displaytitle']
+	    displaytitle = item['properties']['displaytitle']
 
 	except:
 	    #no title

@@ -36,7 +36,7 @@ else:
     exit()
 
 QUERY = "http://hackerspace.gr/api.php?action=ask&q=[[Category:Events]]" \
-        "&format=json&po=location|Start%20date|"
+        "&format=json&po=location|Start%20date|End%20date|displaytitle"
 
 def unescape(s):
     p = htmllib.HTMLParser(None)
@@ -88,6 +88,13 @@ def main():
         raise ValueError("Bad API data")
 
     for item in data:
+	try:
+	    displaytitle = item['properties']['displaytitle']
+	except:
+	    #no title
+	    continue
+
+
         try:
             start_date = datetime.strptime(item['properties']['start_date'],
                                            "%Y-%m-%d %H:%M:%S"
@@ -168,7 +175,7 @@ def main():
                     "VERSION:2.0",
                     "PRODID:-//hsgr/handcal//NONSGML v1.0//EN",
                     "BEGIN:VEVENT",
-                    "UID:%s@hsgr" % item['title'].encode('utf-8').replace(' ', '_'),
+                    "UID:%s@hsgr" % displaytitle.encode('utf-8').replace(' ', '_'),
                     "DTSTAMP;TZID=Europe/Athens:%04d%02d%02dT%02d%02d00" % (
                             start_date.year,
                             start_date.month,

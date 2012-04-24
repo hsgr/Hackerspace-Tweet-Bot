@@ -16,7 +16,7 @@ from email.MIMEMultipart import MIMEMultipart
 from email.MIMEBase import MIMEBase
 from email.MIMEText import MIMEText
 
-import googl
+import tinyurl
 
 #Read configuration
 
@@ -116,9 +116,10 @@ def main():
             # url-quote wiki page title so we
             # generate correct links
             uri = item['uri'][43:].encode("utf-8")
-            url = googl.shorten(item['uri'][:43] +
+            url = tinyurl.create(item['uri'][:43] +
                                 urllib.quote(uri)
-                                ).encode("utf-8")
+                                ).next()
+            url = url.encode("utf-8")
             title = unescape(item['title'])
 
             tweet_message = u"%s στις %02d.%02d: %s %s" %\
